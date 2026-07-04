@@ -2,7 +2,6 @@
 
 這個專案用來做多房間的 floorplan stitching。輸入是一個場景中多張 panorama 對應的房間輪廓，流程會把每個房間的局部 layout 轉成 2D 平面 polygon，透過人工標註的房間對應點建立 pairwise constraints，再用 pose graph optimization 把所有房間拼到同一個座標系中。
 
-這份 README 是給後續接手的同學看的。第一次使用時，建議先照「快速開始」跑完一個現成 scene，再回頭看每個工具的細節。
 
 ## 專案目標
 
@@ -18,7 +17,6 @@
 
 ## 環境安裝
 
-建議使用 conda，因為專案需要 `gtsam`、`numpy`、`matplotlib`、`scipy`、`shapely` 等套件。
 
 ```bash
 cd room-stitching-system
@@ -26,14 +24,6 @@ conda env create -f environment.yml
 conda activate room-stitching
 ```
 
-如果只想先跑測試或看程式，也可以先安裝常用套件：
-
-```bash
-pip install numpy matplotlib scipy shapely pytest black ruff pre-commit
-pip install gtsam
-```
-
-注意：目前 `requirements.txt` 是完整環境匯出，裡面可能包含本機路徑。若重建環境失敗，優先使用 `environment.yml`，或手動安裝上面列出的主要套件。
 
 ## 資料結構
 
@@ -73,7 +63,6 @@ data/group/<scene_name>/
 x y
 ```
 
-目前程式會把 ceiling/floor paired points 中較大的 `y` 視為 floor point，再投影成局部 XY polygon。
 
 ### `matches/pose_edge_matches.json`
 
@@ -141,7 +130,7 @@ x y
 
 ## 快速開始
 
-以下用 `data/group/58472_Floor1` 當範例。若換成其他場景，只要把路徑換掉即可。
+以下用 `data/group/58472_Floor1` 當範例。
 
 ### 1. 檢查 layout 是否能正確讀取
 
@@ -207,33 +196,9 @@ python src/05_draw_floorplan_overlay.py \
 
 輸出的 overlay 圖是最重要的檢查結果。請確認相鄰房間是否接在合理位置、是否有大面積重疊，以及標註過的 corner 是否真的對齊。
 
-## 額外 Constraint 流程
 
-如果只有 pose edges 的結果不夠好，可以額外標註 floorplan-level constraints，例如 wall alignment、single-point adjacency 或 connectivity。
-
-```bash
-python -m src.system.floorplan_constraint_tool \
-  --scene_dir data/group/58472_Floor1 \
-  --poses data/group/58472_Floor1/poses/initial_poses.json \
-  --src_room <src_room_id> \
-  --dst_room <dst_room_id> \
-  --constraint_type wall_alignment \
-  --out data/group/58472_Floor1/matches/candidate_structural_matches.json
 ```
 
-再於最佳化時加入：
-
-```bash
-python src/03_optimize_pose_graph_gtsam.py \
-  --edges data/group/58472_Floor1/edges/edges_measurements.json \
-  --init data/group/58472_Floor1/poses/initial_poses.json \
-  --out data/group/58472_Floor1/poses/optimized_with_extra_points.json \
-  --report data/group/58472_Floor1/poses/optimizer_report_extra_points.json \
-  --extra_points data/group/58472_Floor1/matches/candidate_structural_matches.json \
-  --layout_dir data/group/58472_Floor1/layout_gt
-```
-
-這個功能目前比較偏實驗性。加入 constraints 前，建議先用主流程得到 baseline 結果，再比較加入前後的 overlay 和 residual report。
 
 ## 重要座標約定
 
@@ -302,4 +267,3 @@ MPLCONFIGDIR=/tmp/matplotlib-cache python src/05_draw_floorplan_overlay.py --hel
 6. 若有明顯錯位，回頭檢查標註或 edge residual。
 7. 主流程穩定後，再嘗試加入 extra constraints。
 
-不要一開始就標很多不確定的 constraints。少量、高品質的對應點通常比大量但不穩定的標註更好。
