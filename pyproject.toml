@@ -1,0 +1,39 @@
+[tool.black]
+line-length = 100
+target-version = ["py38"]
+skip-string-normalization = false
+extend-exclude = '''
+(
+  ^LayoutHub/
+| ^lab1/
+| ^data/
+| ^outputs/
+| ^viz_output/
+)
+'''
+
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+exclude = [
+    ".git",
+    "__pycache__",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    "venv",
+    "env",
+    "data",
+    "outputs",
+    "viz_output",
+    "LayoutHub",
+    "lab1",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
