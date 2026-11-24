@@ -129,9 +129,9 @@ else:
 核心約定：
 
 - 公開操作介面角度為 **degree**；scene JSON 內部 `measurement` 為 **radian**。
-- XY 為 **layout units**，未經尺度校準不得當成公尺。
+- XY 為 **layout units**。
 - `relative_pose` 是 B 在 A 局部座標中的位置；`world_pose` 是整體配置的位置。
-- 房間推薦分數越高越優先；位置代價越低越優先。分數不是經校準的正確機率。
+- 房間推薦分數越高越優先；位置代價越低越優先。
 - `no_available_connections` 表示目前沒有可用連接，仍可能有未放置房間。
 - `all_rooms_placed` 只代表所有房間已有位置，不代表已確認位置正確。
 
@@ -201,8 +201,3 @@ tests/              # 自動測試
 docs/               # 整合與格式規格
 ```
 
-## 版本與使用範圍
-
-套件版本：**0.1.1**；scene 資料格式版本：**1.0**。本版本提供 Python function API，整合端可自行包裝 HTTP 服務。套件不提供登入、任務儲存、手動編輯 UI、衝突檢查服務或後處理。
-
-原碼、第三方依賴及資料的使用範圍見 [NOTICE.md](NOTICE.md)。
