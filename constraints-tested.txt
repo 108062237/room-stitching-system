@@ -1,0 +1,16 @@
+# Tested environment snapshot (Python 3.12.2, Linux); not a cross-platform lock.
+numpy==1.26.4
+shapely==2.1.2
+matplotlib==3.9.2
+contourpy==1.3.3
+cycler==0.11.0
+fonttools==4.51.0
+kiwisolver==1.4.4
+packaging==24.1
+Pillow==12.0.0
+pyparsing==3.1.2
+python-dateutil==2.9.0.post0
+six==1.16.0
+pytest==7.4.4
+setuptools==75.1.0
+wheel==0.44.0

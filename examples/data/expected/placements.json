@@ -1,0 +1,86 @@
+{
+  "scene_id": "synthetic_demo",
+  "pair_id": "edge_0000",
+  "room_a": "room_A",
+  "room_b": "room_B",
+  "score_direction": "lower_is_better",
+  "score_type": "layout_cost",
+  "total": 16,
+  "items": [
+    {
+      "rank": 1,
+      "candidate_id": "layout_0002@000",
+      "relative_pose": {
+        "dx": 10.0,
+        "dy": -35.0,
+        "dtheta_deg": 0.0
+      },
+      "world_pose": {
+        "x": 10.0,
+        "y": -35.0,
+        "theta_deg": 0.0
+      },
+      "score": 0.0
+    },
+    {
+      "rank": 2,
+      "candidate_id": "layout_0007@001",
+      "relative_pose": {
+        "dx": 50.0,
+        "dy": -5.0,
+        "dtheta_deg": 0.0
+      },
+      "world_pose": {
+        "x": 50.0,
+        "y": -5.0,
+        "theta_deg": 0.0
+      },
+      "score": 0.0
+    },
+    {
+      "rank": 3,
+      "candidate_id": "layout_0008@002",
+      "relative_pose": {
+        "dx": -10.0,
+        "dy": 35.0,
+        "dtheta_deg": 0.0
+      },
+      "world_pose": {
+        "x": -10.0,
+        "y": 35.0,
+        "theta_deg": 0.0
+      },
+      "score": 0.0
+    },
+    {
+      "rank": 4,
+      "candidate_id": "layout_0013@003",
+      "relative_pose": {
+        "dx": -50.0,
+        "dy": -5.0,
+        "dtheta_deg": 0.0
+      },
+      "world_pose": {
+        "x": -50.0,
+        "y": -5.0,
+        "theta_deg": 0.0
+      },
+      "score": 0.0
+    },
+    {
+      "rank": 5,
+      "candidate_id": "layout_0022@005",
+      "relative_pose": {
+        "dx": 45.0,
+        "dy": 0.0,
+        "dtheta_deg": 90.0
+      },
+      "world_pose": {
+        "x": 45.0,
+        "y": 0.0,
+        "theta_deg": 90.0
+      },
+      "score": 0.0
+    }
+  ]
+}

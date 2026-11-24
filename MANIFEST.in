@@ -1,0 +1,4 @@
+include README.md NOTICE.md CHANGELOG.md constraints-tested.txt .gitignore .gitattributes
+recursive-include docs *.md
+recursive-include examples *.py *.json *.png *.md
+recursive-include tests *.py

@@ -1,0 +1,645 @@
+{
+  "schema_version": "1.0",
+  "scene_id": "synthetic_demo",
+  "units": "layout_units",
+  "angle_unit": "radians",
+  "root_id": "room_A",
+  "room_polygons": {
+    "room_A": [
+      [
+        -30.0,
+        -20.0
+      ],
+      [
+        30.0,
+        -20.0
+      ],
+      [
+        30.0,
+        20.0
+      ],
+      [
+        -30.0,
+        20.0
+      ]
+    ],
+    "room_B": [
+      [
+        -20.0,
+        -15.0
+      ],
+      [
+        20.0,
+        -15.0
+      ],
+      [
+        20.0,
+        15.0
+      ],
+      [
+        -20.0,
+        15.0
+      ]
+    ],
+    "room_C": [
+      [
+        -12.0,
+        -25.0
+      ],
+      [
+        12.0,
+        -25.0
+      ],
+      [
+        12.0,
+        25.0
+      ],
+      [
+        -12.0,
+        25.0
+      ]
+    ]
+  },
+  "pairs": [
+    {
+      "index": 0,
+      "room_a": "room_A",
+      "room_b": "room_B",
+      "measurement": [
+        0.0,
+        -35.0,
+        0.0
+      ],
+      "selected_candidate_id": "layout_0002",
+      "yaw_residual_deg": 180.0,
+      "valid_candidate_count": 16,
+      "confidence": 0.225,
+      "automatic_confidence": 0.225,
+      "candidates": [
+        {
+          "candidate_id": "layout_0002",
+          "measurement": [
+            0.0,
+            -35.0,
+            0.0
+          ],
+          "wall_a_index": 0,
+          "wall_b_index": 2,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0007",
+          "measurement": [
+            50.0,
+            0.0,
+            0.0
+          ],
+          "wall_a_index": 1,
+          "wall_b_index": 3,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0008",
+          "measurement": [
+            0.0,
+            35.0,
+            0.0
+          ],
+          "wall_a_index": 2,
+          "wall_b_index": 0,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0013",
+          "measurement": [
+            -50.0,
+            -0.0,
+            0.0
+          ],
+          "wall_a_index": 3,
+          "wall_b_index": 1,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0017",
+          "measurement": [
+            -1.7763568394002505e-15,
+            -40.0,
+            1.5707963267948966
+          ],
+          "wall_a_index": 0,
+          "wall_b_index": 1,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0022",
+          "measurement": [
+            45.0,
+            0.0,
+            1.5707963267948966
+          ],
+          "wall_a_index": 1,
+          "wall_b_index": 2,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0027",
+          "measurement": [
+            1.7763568394002505e-15,
+            40.0,
+            1.5707963267948966
+          ],
+          "wall_a_index": 2,
+          "wall_b_index": 3,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0028",
+          "measurement": [
+            -45.0,
+            -0.0,
+            1.5707963267948966
+          ],
+          "wall_a_index": 3,
+          "wall_b_index": 0,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0032",
+          "measurement": [
+            3.552713678800501e-15,
+            -35.0,
+            -3.141592653589793
+          ],
+          "wall_a_index": 0,
+          "wall_b_index": 0,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0037",
+          "measurement": [
+            50.0,
+            1.7763568394002505e-15,
+            -3.141592653589793
+          ],
+          "wall_a_index": 1,
+          "wall_b_index": 1,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 2.2204460492503132e-17
+        },
+        {
+          "candidate_id": "layout_0042",
+          "measurement": [
+            -3.552713678800501e-15,
+            35.0,
+            -3.141592653589793
+          ],
+          "wall_a_index": 2,
+          "wall_b_index": 2,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0047",
+          "measurement": [
+            -50.0,
+            -1.7763568394002505e-15,
+            -3.141592653589793
+          ],
+          "wall_a_index": 3,
+          "wall_b_index": 3,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 2.2204460492503132e-17
+        },
+        {
+          "candidate_id": "layout_0051",
+          "measurement": [
+            1.7763568394002505e-15,
+            -40.0,
+            -1.5707963267948966
+          ],
+          "wall_a_index": 0,
+          "wall_b_index": 3,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0052",
+          "measurement": [
+            45.0,
+            0.0,
+            -1.5707963267948966
+          ],
+          "wall_a_index": 1,
+          "wall_b_index": 0,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0057",
+          "measurement": [
+            -1.7763568394002505e-15,
+            40.0,
+            -1.5707963267948966
+          ],
+          "wall_a_index": 2,
+          "wall_b_index": 1,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0062",
+          "measurement": [
+            -45.0,
+            -0.0,
+            -1.5707963267948966
+          ],
+          "wall_a_index": 3,
+          "wall_b_index": 2,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        }
+      ],
+      "risk_signal_count": 2,
+      "risk_tier": "high",
+      "risk_reasons": [
+        "geoverify_pose_missing_or_rejected",
+        "layout_only_pose_ambiguous"
+      ],
+      "estimated_wrong_rate": 0.09999999999999998,
+      "geoverify_metrics": {
+        "da3_probability": 0.9,
+        "layout_suggestion_count": 16
+      },
+      "geoverify_json": "",
+      "manual_action": "layout_suggestion_pending",
+      "manual_note": "DA3 candidate with layout-only pose suggestions; user review required"
+    },
+    {
+      "index": 1,
+      "room_a": "room_B",
+      "room_b": "room_C",
+      "measurement": [
+        0.0,
+        -40.0,
+        0.0
+      ],
+      "selected_candidate_id": "layout_0002",
+      "yaw_residual_deg": 180.0,
+      "valid_candidate_count": 16,
+      "confidence": 0.175,
+      "automatic_confidence": 0.175,
+      "candidates": [
+        {
+          "candidate_id": "layout_0002",
+          "measurement": [
+            0.0,
+            -40.0,
+            0.0
+          ],
+          "wall_a_index": 0,
+          "wall_b_index": 2,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0007",
+          "measurement": [
+            32.0,
+            0.0,
+            0.0
+          ],
+          "wall_a_index": 1,
+          "wall_b_index": 3,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0008",
+          "measurement": [
+            0.0,
+            40.0,
+            0.0
+          ],
+          "wall_a_index": 2,
+          "wall_b_index": 0,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0013",
+          "measurement": [
+            -32.0,
+            -0.0,
+            0.0
+          ],
+          "wall_a_index": 3,
+          "wall_b_index": 1,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0017",
+          "measurement": [
+            0.0,
+            -27.0,
+            1.5707963267948966
+          ],
+          "wall_a_index": 0,
+          "wall_b_index": 1,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 1.4802973661668754e-17
+        },
+        {
+          "candidate_id": "layout_0022",
+          "measurement": [
+            45.0,
+            -1.7763568394002505e-15,
+            1.5707963267948966
+          ],
+          "wall_a_index": 1,
+          "wall_b_index": 2,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0027",
+          "measurement": [
+            0.0,
+            27.0,
+            1.5707963267948966
+          ],
+          "wall_a_index": 2,
+          "wall_b_index": 3,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 1.4802973661668754e-17
+        },
+        {
+          "candidate_id": "layout_0028",
+          "measurement": [
+            -45.0,
+            1.7763568394002505e-15,
+            1.5707963267948966
+          ],
+          "wall_a_index": 3,
+          "wall_b_index": 0,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0032",
+          "measurement": [
+            3.552713678800501e-15,
+            -40.0,
+            -3.141592653589793
+          ],
+          "wall_a_index": 0,
+          "wall_b_index": 0,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0037",
+          "measurement": [
+            32.0,
+            0.0,
+            -3.141592653589793
+          ],
+          "wall_a_index": 1,
+          "wall_b_index": 1,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 2.2204460492503132e-17
+        },
+        {
+          "candidate_id": "layout_0042",
+          "measurement": [
+            -3.552713678800501e-15,
+            40.0,
+            -3.141592653589793
+          ],
+          "wall_a_index": 2,
+          "wall_b_index": 2,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0047",
+          "measurement": [
+            -32.0,
+            -0.0,
+            -3.141592653589793
+          ],
+          "wall_a_index": 3,
+          "wall_b_index": 3,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 2.2204460492503132e-17
+        },
+        {
+          "candidate_id": "layout_0051",
+          "measurement": [
+            0.0,
+            -27.0,
+            -1.5707963267948966
+          ],
+          "wall_a_index": 0,
+          "wall_b_index": 3,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 1.4802973661668754e-17
+        },
+        {
+          "candidate_id": "layout_0052",
+          "measurement": [
+            45.0,
+            1.7763568394002505e-15,
+            -1.5707963267948966
+          ],
+          "wall_a_index": 1,
+          "wall_b_index": 0,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        },
+        {
+          "candidate_id": "layout_0057",
+          "measurement": [
+            0.0,
+            27.0,
+            -1.5707963267948966
+          ],
+          "wall_a_index": 2,
+          "wall_b_index": 1,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 1.4802973661668754e-17
+        },
+        {
+          "candidate_id": "layout_0062",
+          "measurement": [
+            -45.0,
+            -1.7763568394002505e-15,
+            -1.5707963267948966
+          ],
+          "wall_a_index": 3,
+          "wall_b_index": 2,
+          "candidate_score": -1.0,
+          "intrinsic_cost": 0.0,
+          "slide": 0.0,
+          "slide_cost": 0.0,
+          "overlap_ratio": 1.0,
+          "polygon_overlap_ratio": 0.0
+        }
+      ],
+      "risk_signal_count": 2,
+      "risk_tier": "high",
+      "risk_reasons": [
+        "geoverify_pose_missing_or_rejected",
+        "layout_only_pose_ambiguous"
+      ],
+      "estimated_wrong_rate": 0.30000000000000004,
+      "geoverify_metrics": {
+        "da3_probability": 0.7,
+        "layout_suggestion_count": 16
+      },
+      "geoverify_json": "",
+      "manual_action": "layout_suggestion_pending",
+      "manual_note": "DA3 candidate with layout-only pose suggestions; user review required"
+    }
+  ],
+  "metadata": {
+    "candidate_origin": "generated_from_model_results",
+    "unavailable_pairs": [],
+    "models_executed": false,
+    "layout_provenance": "caller_supplied"
+  }
+}
