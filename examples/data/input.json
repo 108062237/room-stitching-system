@@ -1,0 +1,72 @@
+{
+  "scene_id": "synthetic_demo",
+  "room_polygons": {
+    "room_A": [
+      [
+        -30,
+        -20
+      ],
+      [
+        30,
+        -20
+      ],
+      [
+        30,
+        20
+      ],
+      [
+        -30,
+        20
+      ]
+    ],
+    "room_B": [
+      [
+        -20,
+        -15
+      ],
+      [
+        20,
+        -15
+      ],
+      [
+        20,
+        15
+      ],
+      [
+        -20,
+        15
+      ]
+    ],
+    "room_C": [
+      [
+        -12,
+        -25
+      ],
+      [
+        12,
+        -25
+      ],
+      [
+        12,
+        25
+      ],
+      [
+        -12,
+        25
+      ]
+    ]
+  },
+  "geoverify_results": [],
+  "da3_pairs": [
+    {
+      "room_a": "room_A",
+      "room_b": "room_B",
+      "probability": 0.9
+    },
+    {
+      "room_a": "room_B",
+      "room_b": "room_C",
+      "probability": 0.7
+    }
+  ]
+}

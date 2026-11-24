@@ -1,0 +1,74 @@
+{
+  "interactive": {
+    "default_house": "58472_Floor1",
+    "edge_confidence_threshold": 0.25,
+    "conflict_overlap_threshold": 0.15,
+    "conflict_gap_threshold": 10.0,
+    "endpoint_alignment_weight": 2.0,
+    "da3_suggestion_threshold": 0.01,
+    "candidate_switch_confidence": 1.1,
+    "door_support_threshold": 0.8,
+    "door_snap_clearance": 1.0,
+    "wall_snap_clearance": 1.0,
+    "minimum_room_clearance": 0.0,
+    "maximum_room_overlap_ratio": 0.01,
+    "layout_suggestion": {
+      "wall_angle_threshold": 10.0,
+      "wall_distance_threshold": 10.0,
+      "wall_min_overlap": 5.0,
+      "wall_min_overlap_ratio": 0.0,
+      "polygon_overlap_threshold": 0.1,
+      "distance_weight": 0.0,
+      "angle_weight": 0.5,
+      "overlap_weight": 1.0,
+      "polygon_overlap_weight": 2.0,
+      "score_orientation_scale": 10.0,
+      "score_overlap_weight": 1.0,
+      "score_polygon_overlap_weight": 2.0
+    }
+  },
+  "layout_refinement": {
+    "layout_z": 50.0,
+    "slide_samples": 9,
+    "max_slide_ratio": 0.25,
+    "candidate_switch_confidence": 0.2,
+    "medium_risk_multiplier": 0.75,
+    "high_risk_multiplier": 0.25,
+    "wall_min_overlap": 5.0,
+    "polygon_overlap_threshold": 0.1,
+    "collision_tolerance": 0.005,
+    "refinement_sweeps": 3,
+    "improvement_epsilon": 1e-06,
+    "weights": {
+      "collision": 15.0,
+      "edge_consistency": 8.0,
+      "contact": 2.0,
+      "intrinsic": 1.0,
+      "slide_prior": 3.0,
+      "compactness": 0.05
+    },
+    "success_thresholds": {
+      "rotation_deg": 5.0,
+      "translation": 10.0
+    }
+  },
+  "guided": {
+    "layout_z": 50.0,
+    "max_yaw_snap_residual": 15.0,
+    "wall_angle_threshold": 10.0,
+    "wall_preselection_top_k": 3,
+    "wall_preselection_max_angle": 80.0,
+    "min_normal_bearing_cos": 0.1,
+    "wall_contact_threshold": 1e-05,
+    "wall_min_overlap": 5.0,
+    "polygon_overlap_threshold": 0.1,
+    "bearing_tau": 10.0,
+    "w_incidence": 0.5,
+    "w_preselection": 0.25,
+    "w_overlap": 1.0,
+    "w_polygon_overlap": 2.0,
+    "rotation_success_threshold": 5.0,
+    "translation_success_threshold": 10.0,
+    "disable_wall_preselection": false
+  }
+}

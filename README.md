@@ -1,269 +1,208 @@
-# Room Stitching System
+# Room Assembly Toolkit
 
-這個專案用來做多房間的 floorplan stitching。輸入是一個場景中多張 panorama 對應的房間輪廓，流程會把每個房間的局部 layout 轉成 2D 平面 polygon，透過人工標註的房間對應點建立 pairwise constraints，再用 pose graph optimization 把所有房間拼到同一個座標系中。
+房間拼接 Python 套件。輸入各房間輪廓、配對資訊及目前配置，取得下一個房間的推薦順序、建議位置與 2D 拼接預覽。
 
+| 功能 | Python 介面 | 輸出 |
+| --- | --- | --- |
+| 房間推薦與優先順序 | `recommend_rooms()` | 推薦房間、連接對象、分數與排序 |
+| 房間拼接位置建議 | `suggest_placements()` | 相對平移、旋轉角度與整體座標位置 |
+| 拼接位置預覽 | `preview_placement()` | 各房間的世界座標輪廓與顯示範圍 |
 
-## 專案目標
+本套件提供計算介面。整合端負責操作畫面、位置確認及進度保存。預覽不回傳衝突判定、不阻擋位置，也不自動保存；位置推薦本身使用幾何評分選擇方案。
 
-本系統主要處理以下問題：
+## 目錄
 
-1. 從 `layout_gt/*.txt` 讀取單一房間的 layout corner。
-2. 將 panorama pixel 座標轉成房間局部 XY 平面座標。
-3. 手動標註兩個房間之間的對應 corner 或 point。
-4. 把人工標註轉成 SE(2) relative pose edge。
-5. 建立所有房間的初始全域 pose。
-6. 使用 GTSAM Pose2 pose graph optimization 最佳化房間位置。
-7. 輸出 stitched floorplan overlay，檢查拼接結果。
+- [環境需求與安裝](#環境需求與安裝)
+- [快速開始](#快速開始)
+- [程式整合](#程式整合)
+- [輸入與輸出](#輸入與輸出)
+- [資料準備](#資料準備)
+- [文件](#文件)
+- [測試](#測試)
+- [版本與使用範圍](#版本與使用範圍)
 
-## 環境安裝
+## 環境需求與安裝
 
+- Python 3.10 以上；已驗證環境為 Linux / Python 3.12.2。
+- 核心依賴：NumPy、Shapely。
+- PNG 輸出另需 Matplotlib。
+- 核心計算在 CPU 執行，不需要 GPU 或模型權重。
+
+取得原始碼後，於專案根目錄執行：
+
+**Linux / macOS**
 
 ```bash
-cd room-stitching-system
-conda env create -f environment.yml
-conda activate room-stitching
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install '.[render]'
 ```
 
+**Windows PowerShell**
 
-## 資料結構
-
-一個場景資料夾通常放在 `data/group/<scene_name>/`，例如 `data/group/58472_Floor1/`。
-
-```text
-data/group/<scene_name>/
-├── manifest.json
-├── panos/
-│   └── <room_id>.jpg
-├── layout/
-│   └── <room_id>.json
-├── layout_gt/
-│   └── <room_id>.txt
-├── matches/
-│   └── pose_edge_matches.json
-├── edges/
-│   └── edges_measurements.json
-├── poses/
-│   ├── initial_poses.json
-│   └── optimized_poses.json
-└── viz/
-    └── floorplan_overlay.png
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install '.[render]'
 ```
 
-主要流程使用的是 `layout_gt/*.txt`。`panos/` 用在互動式標註與人工檢查；`layout/` 是原始或中間格式，主流程不一定會直接讀。
+僅需 JSON 結果時使用 `python -m pip install .`。已驗證依賴版本列於 [constraints-tested.txt](constraints-tested.txt)，安裝時可加 `-c constraints-tested.txt`；其他作業系統尚未實機驗證。
 
-## 常用檔案格式
+亦可安裝交付的 wheel：
 
-詳細格式請看 [docs/json_formats.md](docs/json_formats.md)。這裡只列最常遇到的幾個。
-
-### `layout_gt/<room_id>.txt`
-
-每一行是一個 panorama pixel 座標：
-
-```text
-x y
+```bash
+python -m pip install 'room_assembly_toolkit-0.1.1-py3-none-any.whl[render]'
 ```
-
-
-### `matches/pose_edge_matches.json`
-
-人工標註的房間對應點。每組 pair 使用 1-based corner index。
-
-```json
-{
-  "scene_id": "58472_Floor1",
-  "items": [
-    {
-      "src": "room_a_id",
-      "dst": "room_b_id",
-      "pairs": [[1, 7], [6, 8]]
-    }
-  ]
-}
-```
-
-至少要有兩組 point pair，才能穩定估計一條 SE(2) relative pose edge。
-
-### `edges/edges_measurements.json`
-
-給 GTSAM 用的 pairwise pose constraints。
-
-```json
-{
-  "scene_id": "58472_Floor1",
-  "edges": [
-    {
-      "i": "room_a_id",
-      "j": "room_b_id",
-      "measurement": {
-        "dx": 0.0,
-        "dy": 0.0,
-        "dtheta": 0.0
-      },
-      "noise_sigma": {
-        "sigma_xy": 0.005,
-        "sigma_theta": 0.001
-      }
-    }
-  ]
-}
-```
-
-方向約定是 `i -> j`，也就是 `z_ij = x_i^-1 * x_j`。
-
-### `poses/*.json`
-
-每個房間在全域座標中的 pose：
-
-```json
-{
-  "poses": {
-    "room_id": {
-      "x": 0.0,
-      "y": 0.0,
-      "theta": 0.0
-    }
-  }
-}
-```
-
-角度單位都是 radians。
 
 ## 快速開始
 
-以下用 `data/group/58472_Floor1` 當範例。
-
-### 1. 檢查 layout 是否能正確讀取
-
 ```bash
-python -m src.system.test_room_loader_manual \
-  --scene_dir data/group/58472_Floor1
+python examples/demo.py --output outputs/demo
 ```
 
-這個工具會載入 `layout_gt/` 中的房間 polygon，並顯示每個 corner index。之後標註時會用到這些 index。
-
-### 2. 標註兩個房間的對應點
-
-```bash
-python -m src.system.annotation_tool \
-  --scene_dir data/group/58472_Floor1 \
-  --src_room <src_room_id> \
-  --dst_room <dst_room_id> \
-  --out data/group/58472_Floor1/matches/pose_edge_matches.json
-```
-
-標註時請注意：
-
-- corner index 是 1-based。
-- 一條 pose edge 至少需要兩組對應點。
-- 對應點品質會直接影響後續拼接結果。
-- 如果同一個 scene 需要多組房間配對，可以多次執行並累積到同一份 matches。
-
-### 3. 由 matches 產生 pose graph edges
-
-```bash
-python src/tool_generate_gtsam_edges.py \
-  --matches data/group/58472_Floor1/matches/pose_edge_matches.json \
-  --layout_dir data/group/58472_Floor1/layout_gt \
-  --out data/group/58472_Floor1/edges/edges_measurements.json
-```
-
-### 4. 建立初始 poses
-
-```bash
-python src/02_init_poses_bfs.py \
-  --edges data/group/58472_Floor1/edges/edges_measurements.json \
-  --out data/group/58472_Floor1/poses/initial_poses.json
-```
-
-### 5. 執行 GTSAM 最佳化
-
-```bash
-python src/03_optimize_pose_graph_gtsam.py \
-  --edges data/group/58472_Floor1/edges/edges_measurements.json \
-  --init data/group/58472_Floor1/poses/initial_poses.json \
-  --out data/group/58472_Floor1/poses/optimized_poses.json \
-  --report data/group/58472_Floor1/poses/optimizer_report.json
-```
-
-### 6. 畫出拼接結果
-
-```bash
-python src/05_draw_floorplan_overlay.py \
-  --scene_dir data/group/58472_Floor1 \
-  --poses data/group/58472_Floor1/poses/optimized_poses.json \
-  --out data/group/58472_Floor1/viz/floorplan_overlay.png
-```
-
-輸出的 overlay 圖是最重要的檢查結果。請確認相鄰房間是否接在合理位置、是否有大面積重疊，以及標註過的 corner 是否真的對齊。
-
-
-```
-
-
-## 重要座標約定
-
-- room id 使用不含副檔名的 pano id。
-- corner index 使用 1-based。
-- 所有角度使用 radians。
-- pose edge 方向是 `i -> j`。
-- `layout_z`、`pano_w`、`pano_h` 在 edge generation、optimization、overlay visualization 中要保持一致。
-- 預設參數是 `layout_z=50.0`、`pano_w=1024`、`pano_h=512`。
-
-## 程式結構
+範例使用套件內附的合成資料，不需額外資料集。執行後產生：
 
 ```text
-src/
-├── system/
-│   ├── room_loader.py
-│   ├── annotation_tool.py
-│   ├── floorplan_constraint_tool.py
-│   ├── preview_pipeline.py
-│   └── corner_editor.py
-├── utils/
-│   ├── geom.py
-│   ├── post_proc.py
-│   ├── axis_align.py
-│   ├── labels.py
-│   └── panostretch.py
-├── tool_generate_gtsam_edges.py
-├── 02_init_poses_bfs.py
-├── 03_optimize_pose_graph_gtsam.py
-├── 04_viz_pose_graph.py
-├── 05_draw_floorplan_overlay.py
-├── analyze_edge_residuals.py
-├── analyze_candidate_residuals.py
-├── evaluate_layout_objective.py
-└── optimize_floorplan_objective.py
+outputs/demo/
+├── scene.json             # 準備好的房間與候選資料
+├── start.json             # 起始房間建議
+├── state.json             # 本次呼叫使用的配置
+├── recommendations.json   # 下一間房間的推薦清單
+├── placements.json        # 拼接位置方案
+├── preview.json           # 預覽輪廓及顯示範圍
+└── preview.png            # 2D 預覽圖
 ```
+
+合成資料只用於介面示範，不代表實際場景的拼接準確率。
+
+## 程式整合
+
+```python
+from room_assembly import (
+    AssemblyState, Pose2D,
+    recommend_rooms, suggest_placements, preview_placement,
+)
+from room_assembly.adapters import load_scene
+from room_assembly.rendering import render_preview
+
+scene = load_scene("outputs/demo/scene.json")
+
+# 取得起始房間並設定其整體位置。
+start = recommend_rooms(scene, AssemblyState())
+root = start["items"][0]["room_id"]
+state = AssemblyState(placed={root: Pose2D(0, 0, 0)})
+
+# 1. 房間推薦與排序。
+ranking = recommend_rooms(scene, state, top_k=5)
+if ranking["items"]:
+    choice = ranking["items"][0]
+
+    # 2. 查詢指定配對的位置方案。
+    placements = suggest_placements(
+        scene, state,
+        room_a=choice["connect_to"],
+        room_b=choice["room_id"],
+        pair_id=choice["pair_id"],
+        top_k=5,
+    )
+    pose = placements["items"][0]["world_pose"]
+
+    # 3. 預覽指定位置。
+    preview = preview_placement(scene, state, choice["room_id"], pose)
+    render_preview(preview, "outputs/preview.png")
+else:
+    print(ranking["status"])
+```
+
+三個介面均回傳可序列化為 JSON 的 `dict`，不修改傳入的配置。整合端確認位置後，將該房間的 `world_pose` 加入下一次呼叫的 `placed`，並自行保存；套件不執行全局位置最佳化。
+
+## 輸入與輸出
+
+| 資料 | 必要性 | 說明 |
+| --- | --- | --- |
+| 房間識別與局部 XY 輪廓 | 必要 | 每間房使用唯一 ID 與固定頂點順序 |
+| 配對與位置候選資料 | 推薦及位置建議需要 | 可讀取準備好的 scene，或由輪廓與模型結果產生 |
+| 目前已放置房間的位置 | 必要 | 初次呼叫可為空；後續由整合端更新 |
+| GeoVerify 完整單對結果 | 產生幾何引導候選時使用 | 提供相對方向、旋轉與品質資訊 |
+| DA3 正規化配對分數 | 選用 | 提供缺少幾何引導候選時的備援配對 |
+
+核心約定：
+
+- 公開操作介面角度為 **degree**；scene JSON 內部 `measurement` 為 **radian**。
+- XY 為 **layout units**，未經尺度校準不得當成公尺。
+- `relative_pose` 是 B 在 A 局部座標中的位置；`world_pose` 是整體配置的位置。
+- 房間推薦分數越高越優先；位置代價越低越優先。分數不是經校準的正確機率。
+- `no_available_connections` 表示目前沒有可用連接，仍可能有未放置房間。
+- `all_rooms_placed` 只代表所有房間已有位置，不代表已確認位置正確。
+
+完整格式見 [輸入輸出規格](docs/INPUT_OUTPUT.md) 與 [座標規格](docs/COORDINATES.md)。
+
+## 資料準備
+
+**使用局部輪廓與正規化配對資料：**
+
+```python
+from room_assembly.adapters import build_scene, save_scene
+
+scene = build_scene(
+    scene_id="example_floor",
+    room_polygons={
+        "A": [[-30, -20], [30, -20], [30, 20], [-30, 20]],
+        "B": [[-20, -15], [20, -15], [20, 15], [-20, 15]],
+    },
+    da3_pairs=[{"room_a": "A", "room_b": "B", "probability": 0.9}],
+)
+save_scene(scene, "outputs/example_floor.json")
+```
+
+**使用 layout TXT 與完整單對模型輸出：**
+
+```bash
+python examples/prepare_from_results.py \
+  --scene-id example_floor \
+  --layout-dir data/example_floor/layout_gt \
+  --geoverify-root data/geoverify \
+  --da3-predictions data/da3/predictions.csv \
+  --output outputs/example_floor.json
+```
+
+`data/geoverify/example_floor/pair_results/` 放置完整單對 JSON。`--geoverify-root` 與 `--da3-predictions` 至少提供一項。模型結果的格式需符合 [輸入規格](docs/INPUT_OUTPUT.md)，本版本不會自動辨識其他專案的整房交付格式或執行上游模型。
+
+## 文件
+
+| 文件 | 內容 |
+| --- | --- |
+| [API](docs/API.md) | 三個介面的參數、回傳值、狀態及錯誤 |
+| [INPUT_OUTPUT](docs/INPUT_OUTPUT.md) | 輪廓、配對、scene 及匯出格式 |
+| [COORDINATES](docs/COORDINATES.md) | 座標方向、角度、尺度與索引 |
+| [INTEGRATION](docs/INTEGRATION.md) | 呼叫流程、資料責任及異常處理 |
+| [FUNCTION_MAP](docs/FUNCTION_MAP.md) | 功能細項與程式模組 |
+| [ALGORITHM_OVERVIEW](docs/ALGORITHM_OVERVIEW.md) | 推薦排序及位置候選的計算方式 |
+| [VALIDATION](docs/VALIDATION.md) | 驗證環境、測試範圍與結果 |
 
 ## 測試
 
-修改程式後，至少跑一次：
-
 ```bash
-pytest
+python -m pip install -e '.[test]'
+python -m pytest -q
 ```
 
-格式檢查可以使用：
+測試不需要 GPU、私人資料集或其他專案原始碼。程式結構如下：
 
-```bash
-ruff check src tests
-black src tests
+```text
+src/room_assembly/
+├── api.py          # 三個公開入口
+├── models.py       # Scene、AssemblyState、Pose2D
+├── core/           # 排序、位置候選與座標轉換
+├── adapters/       # JSON、CSV、TXT 資料轉接
+└── rendering.py    # PNG 輸出
+examples/           # 呼叫範例與示範資料
+tests/              # 自動測試
+docs/               # 整合與格式規格
 ```
 
-如果在 server 或 sandbox 中執行 matplotlib 相關程式，可能會看到 font/cache 目錄不可寫的 warning。可以指定可寫的 cache 位置：
+## 版本與使用範圍
 
-```bash
-MPLCONFIGDIR=/tmp/matplotlib-cache python src/05_draw_floorplan_overlay.py --help
-```
+套件版本：**0.1.1**；scene 資料格式版本：**1.0**。本版本提供 Python function API，整合端可自行包裝 HTTP 服務。套件不提供登入、任務儲存、手動編輯 UI、衝突檢查服務或後處理。
 
-## 建議工作流程
-
-1. 確認 `manifest.json`、`panos/`、`layout_gt/` 都齊全。
-2. 用 `test_room_loader_manual.py` 檢查每個房間 polygon 和 corner index。
-3. 先標註最有把握的房間 pair。
-4. 產生 edges、initial poses、optimized poses。
-5. 畫 overlay 檢查結果。
-6. 若有明顯錯位，回頭檢查標註或 edge residual。
-7. 主流程穩定後，再嘗試加入 extra constraints。
-
+原碼、第三方依賴及資料的使用範圍見 [NOTICE.md](NOTICE.md)。

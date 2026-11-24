@@ -1,0 +1,31 @@
+{
+  "scene_id": "synthetic_demo",
+  "mode": "start",
+  "status": "available",
+  "score_direction": "higher_is_better",
+  "score_type": "weighted_degree",
+  "total": 3,
+  "items": [
+    {
+      "rank": 1,
+      "room_id": "room_A",
+      "connect_to": null,
+      "pair_id": null,
+      "score": 0.0
+    },
+    {
+      "rank": 2,
+      "room_id": "room_B",
+      "connect_to": null,
+      "pair_id": null,
+      "score": 0.0
+    },
+    {
+      "rank": 3,
+      "room_id": "room_C",
+      "connect_to": null,
+      "pair_id": null,
+      "score": 0.0
+    }
+  ]
+}

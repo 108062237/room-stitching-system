@@ -1,0 +1,24 @@
+{
+  "scene_id": "synthetic_demo",
+  "mode": "insertion",
+  "status": "available",
+  "remaining_rooms": 2,
+  "score_direction": "higher_is_better",
+  "score_type": "connection_confidence",
+  "total": 1,
+  "items": [
+    {
+      "rank": 1,
+      "room_id": "room_B",
+      "connect_to": "room_A",
+      "pair_id": "edge_0000",
+      "score": 0.225,
+      "risk_tier": "high",
+      "risk_reasons": [
+        "geoverify_pose_missing_or_rejected",
+        "layout_only_pose_ambiguous"
+      ],
+      "source": "da3_layout_suggestion"
+    }
+  ]
+}

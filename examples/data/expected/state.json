@@ -1,0 +1,10 @@
+{
+  "placed": {
+    "room_A": {
+      "x": 0.0,
+      "y": 0.0,
+      "theta_deg": 0.0
+    }
+  },
+  "excluded_pair_ids": []
+}

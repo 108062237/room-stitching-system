@@ -1,39 +1,25 @@
-[tool.black]
-line-length = 100
-target-version = ["py38"]
-skip-string-normalization = false
-extend-exclude = '''
-(
-  ^LayoutHub/
-| ^lab1/
-| ^data/
-| ^outputs/
-| ^viz_output/
-)
-'''
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
 
-[tool.ruff]
-line-length = 100
-target-version = "py38"
-exclude = [
-    ".git",
-    "__pycache__",
-    ".pytest_cache",
-    ".ruff_cache",
-    ".venv",
-    "venv",
-    "env",
-    "data",
-    "outputs",
-    "viz_output",
-    "LayoutHub",
-    "lab1",
-]
+[project]
+name = "room-assembly-toolkit"
+version = "0.1.1"
+description = "Stateless room recommendation, placement suggestions and 2D placement previews"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24,<3", "shapely>=1.8,<3"]
 
-[tool.ruff.lint]
-select = ["E", "F", "W", "I"]
-ignore = ["E501"]
+[project.optional-dependencies]
+render = ["matplotlib>=3.7,<4"]
+test = ["pytest>=7,<9", "matplotlib>=3.7,<4"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+room_assembly = ["defaults.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-python_files = ["test_*.py"]
+

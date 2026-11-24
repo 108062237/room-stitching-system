@@ -1,0 +1,68 @@
+{
+  "scene_id": "synthetic_demo",
+  "coordinate_frame": "world_xy",
+  "units": "layout_units",
+  "preview_room_id": "room_B",
+  "rooms": [
+    {
+      "room_id": "room_A",
+      "preview": false,
+      "world_pose": {
+        "x": 0.0,
+        "y": 0.0,
+        "theta_deg": 0.0
+      },
+      "polygon": [
+        [
+          -30.0,
+          -20.0
+        ],
+        [
+          30.0,
+          -20.0
+        ],
+        [
+          30.0,
+          20.0
+        ],
+        [
+          -30.0,
+          20.0
+        ]
+      ]
+    },
+    {
+      "room_id": "room_B",
+      "preview": true,
+      "world_pose": {
+        "x": 10.0,
+        "y": -35.0,
+        "theta_deg": 0.0
+      },
+      "polygon": [
+        [
+          -10.0,
+          -50.0
+        ],
+        [
+          30.0,
+          -50.0
+        ],
+        [
+          30.0,
+          -20.0
+        ],
+        [
+          -10.0,
+          -20.0
+        ]
+      ]
+    }
+  ],
+  "bounds": {
+    "min_x": -30.0,
+    "min_y": -50.0,
+    "max_x": 30.0,
+    "max_y": 20.0
+  }
+}
